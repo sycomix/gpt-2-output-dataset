@@ -54,14 +54,14 @@ def load_datasets(data_dir, real_dataset, fake_dataset, tokenizer, batch_size,
     if fake_dataset == "TWO":
         real_train, real_valid = real_corpus.train * 2, real_corpus.valid * 2
         fake_corpora = [Corpus(name, data_dir=data_dir) for name in ['xl-1542M', 'xl-1542M-nucleus']]
-        fake_train = sum([corpus.train for corpus in fake_corpora], [])
-        fake_valid = sum([corpus.valid for corpus in fake_corpora], [])
+        fake_train = sum((corpus.train for corpus in fake_corpora), [])
+        fake_valid = sum((corpus.valid for corpus in fake_corpora), [])
     elif fake_dataset == "THREE":
         real_train, real_valid = real_corpus.train * 3, real_corpus.valid * 3
         fake_corpora = [Corpus(name, data_dir=data_dir) for name in
                         ['xl-1542M', 'xl-1542M-k40', 'xl-1542M-nucleus']]
-        fake_train = sum([corpus.train for corpus in fake_corpora], [])
-        fake_valid = sum([corpus.valid for corpus in fake_corpora], [])
+        fake_train = sum((corpus.train for corpus in fake_corpora), [])
+        fake_valid = sum((corpus.valid for corpus in fake_corpora), [])
     else:
         fake_corpus = Corpus(fake_dataset, data_dir=data_dir)
 

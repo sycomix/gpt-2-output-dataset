@@ -18,7 +18,7 @@ def summary(model: nn.Module, file=sys.stdout):
         for key, module in model._modules.items():
             mod_str, num_params = repr(module)
             mod_str = nn.modules.module._addindent(mod_str, 2)
-            child_lines.append('(' + key + '): ' + mod_str)
+            child_lines.append(f'({key}): {mod_str}')
             total_params += num_params
         lines = extra_lines + child_lines
 
@@ -26,7 +26,7 @@ def summary(model: nn.Module, file=sys.stdout):
             if hasattr(p, 'shape'):
                 total_params += reduce(lambda x, y: x * y, p.shape)
 
-        main_str = model._get_name() + '('
+        main_str = f'{model._get_name()}('
         if lines:
             # simple one-liner info, which most builtin Modules will use
             if len(extra_lines) == 1 and not child_lines:

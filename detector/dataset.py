@@ -11,12 +11,12 @@ from .download import download
 
 
 def load_texts(data_file, expected_size=None):
-    texts = []
-
-    for line in tqdm(open(data_file), total=expected_size, desc=f'Loading {data_file}'):
-        texts.append(json.loads(line)['text'])
-
-    return texts
+    return [
+        json.loads(line)['text']
+        for line in tqdm(
+            open(data_file), total=expected_size, desc=f'Loading {data_file}'
+        )
+    ]
 
 
 class Corpus:
@@ -49,13 +49,12 @@ class EncodedDataset(Dataset):
             label = self.random.randint(2)
             texts = [self.fake_texts, self.real_texts][label]
             text = texts[self.random.randint(len(texts))]
+        elif index < len(self.real_texts):
+            text = self.real_texts[index]
+            label = 1
         else:
-            if index < len(self.real_texts):
-                text = self.real_texts[index]
-                label = 1
-            else:
-                text = self.fake_texts[index - len(self.real_texts)]
-                label = 0
+            text = self.fake_texts[index - len(self.real_texts)]
+            label = 0
 
         tokens = self.tokenizer.encode(text)
 
